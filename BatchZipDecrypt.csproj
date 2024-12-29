@@ -7,6 +7,23 @@
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <SignAssembly>False</SignAssembly>
+    <Title>Batch Zip Decrypt</Title>
+    <Authors>Invertex</Authors>
+    <RepositoryUrl>https://github.com/Invertex/BatchZipDecrypt</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Invertex/BatchZipDecrypt</PackageProjectUrl>
+    <Description>Command-line tool for batch encrypting or decrypting ZIP files.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <ItemGroup>
