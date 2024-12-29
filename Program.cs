@@ -92,7 +92,7 @@ async Task ProcessZip(string zipPath)
     foreach (var ms in entryStreams) { ms.Dispose(); }
 }
 
-async Task ProcessArgs(string[] args)
+async Task<bool> ProcessArgs(string[] args)
 {
     string? path = null;
     string? pass = null;
@@ -101,7 +101,7 @@ async Task ProcessArgs(string[] args)
     for(int i = 0; i < args.Length; i++)
     {
         Console.WriteLine(args[i] + " ");
-        if (args[i] == "-file")
+        if (args[i] == "-path")
         {
             path = args[i + 1];
             i++;
@@ -117,13 +117,17 @@ async Task ProcessArgs(string[] args)
             i++;
         }
     }
-
+    if (path == null)
+    {
+        Console.WriteLine("No File or Path defined. Make sure to use -path PATH  to target a file or directory.");
+        return false;
+    }
     if (passfile != null)
     {
         if (!File.Exists(passfile))
         {
             Console.WriteLine($"{passfile} does not exist!");
-            return;
+            return false;
         }
 
         var passes = File.ReadAllLines(passfile);
@@ -143,7 +147,7 @@ async Task ProcessArgs(string[] args)
     else
     {
         Console.WriteLine("No Password or Password file provided. Use '-pass PASSWORD' or '-passfile FILEPATH' to provide passwords for files.");
-        return;
+        return false;
     }
 
     if (Directory.Exists(path))
@@ -159,6 +163,13 @@ async Task ProcessArgs(string[] args)
         }
     }
     else { await ProcessZip(path); }
+
+    return true;
 }
 
-await ProcessArgs(args);
+bool success = await ProcessArgs(args);
+
+if (!success)
+{
+    Console.WriteLine("Full usage: batchzipdecrypt.exe -path FILE_OR_FOLDER -pass PASSWORD  (-passfile to use a file of passwords)");
+}
